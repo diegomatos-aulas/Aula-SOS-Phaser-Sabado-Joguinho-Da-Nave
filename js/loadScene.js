@@ -17,26 +17,34 @@ export default class LoadScene extends Phaser.Scene {
       "barraDeCarregamento"
     );
 
-    let txtPorcentagem = this.add.text(barraDeCarregamento.x , barraDeCarregamento.y, "0%").setOrigin(0.5);
-    let txtArquivo = this.add.text(barraDeCarregamento.x - barraDeCarregamento.displayWidth/2 , barraDeCarregamento.y + 28, "0%").setOrigin(0, 0.5);
+    let txtPorcentagem = this.add
+      .text(barraDeCarregamento.x, barraDeCarregamento.y, "0%")
+      .setOrigin(0.5);
+    let txtArquivo = this.add
+      .text(
+        barraDeCarregamento.x - barraDeCarregamento.displayWidth / 2,
+        barraDeCarregamento.y + 28,
+        "0%"
+      )
+      .setOrigin(0, 0.5);
 
     this.load.on("progress", (value) => {
       let fixedValue = 0;
-      if(Number.isInteger(value)){
-        fixedValue = value*100;
-      }else{
-        fixedValue = (value*100).toFixed(2);
+      if (Number.isInteger(value)) {
+        fixedValue = value * 100;
+      } else {
+        fixedValue = (value * 100).toFixed(2);
       }
-      txtPorcentagem.setText(`${fixedValue}%`)
+      txtPorcentagem.setText(`${fixedValue}%`);
     });
 
-    this.load.on("fileprogress", ({key}) => {
-      txtArquivo.setText(`Carregando: ${key}`)
+    this.load.on("fileprogress", ({ key }) => {
+      txtArquivo.setText(`Carregando: ${key}`);
     });
 
     this.load.on("complete", () => {
       console.log("Carregamento Finalizado !");
-      txtArquivo.setText(` Jogo Carregado ! \n Pressione Enter`)
+      txtArquivo.setText(` Jogo Carregado ! \n Pressione Enter`);
     });
 
     // CARREGAMENTO DAS IMAGENS
@@ -64,5 +72,35 @@ export default class LoadScene extends Phaser.Scene {
     this.load.audio("explosaoSFX", "./audio/explosion_sound.mp3");
     this.load.audio("tiroSFX", "./audio/shoot_sound.mp3");
     this.load.audio("startUpSFX", "./audio/start-up_sound.mp3");
+  }
+
+  create() {
+    // CRIANDO ANIMAÇÕES
+
+    this.anims.create({
+      key: "Parado",
+      frames: this.anims.generateFrameNumbers("Jogador", { start: 1, end: 2 }),
+      frameRate: 10,
+      repeat: -1,
+    });
+
+    this.anims.create({
+      key: "Esquerda",
+      frames: this.anims.generateFrameNumbers("Jogador", { start: 4, end: 5 }),
+      frameRate: 10,
+      repeat: -1,
+    });
+
+    this.anims.create({
+      key: "Direita",
+      frames: this.anims.generateFrameNumbers("Jogador", { start: 7, end: 8 }),
+      frameRate: 10,
+      repeat: -1,
+    });
+
+    let enterKey = this.input.keyboard.addKey("ENTER");
+    enterKey.once("down", () => {
+      this.scene.start("MenuScene");
+    });
   }
 }

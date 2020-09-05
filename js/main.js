@@ -1,5 +1,7 @@
 import BootScene from "./bootScene.js"
 import LoadScene from "./loadScene.js"
+import MenuScene from "./menuScene.js"
+import GameScene from "./gameScene.js"
 
 let config = {
     width : 320,
@@ -12,7 +14,7 @@ let config = {
     physics : {
         default : "arcade"
     },
-    scene : [BootScene, LoadScene]
+    scene : [BootScene, LoadScene, MenuScene, GameScene]
 }
 
 new Phaser.Game(config)
