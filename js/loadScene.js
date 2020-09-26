@@ -24,7 +24,8 @@ export default class LoadScene extends Phaser.Scene {
       .text(
         barraDeCarregamento.x - barraDeCarregamento.displayWidth / 2,
         barraDeCarregamento.y + 28,
-        "0%"
+        "0%",
+        {align: "center"}
       )
       .setOrigin(0, 0.5);
 
@@ -44,7 +45,7 @@ export default class LoadScene extends Phaser.Scene {
 
     this.load.on("complete", () => {
       console.log("Carregamento Finalizado !");
-      txtArquivo.setText(` Jogo Carregado ! \n Pressione Enter`);
+      txtArquivo.setText(`  Jogo Carregado! \n Pressione Enter`);
     });
 
     // CARREGAMENTO DAS IMAGENS
@@ -97,6 +98,24 @@ export default class LoadScene extends Phaser.Scene {
       frameRate: 10,
       repeat: -1,
     });
+
+    this.anims.create({
+      key: "Inimigo",
+      frames: this.anims.generateFrameNumbers("Inimigo", { start: 0, end: 1 }),
+      frameRate: 10,
+      repeat: -1,
+    });
+
+    let explosao = this.anims.create({
+      key: "Explosao",
+      frames: this.anims.generateFrameNumbers("Explosion", { start: 0, end: 4 }),
+      frameRate: 10,
+      repeat: 0,
+    });
+
+    explosao.on("complete", (currentAnim, currentFrame, sprite) => {
+      sprite.destroy();
+    })
 
     let enterKey = this.input.keyboard.addKey("ENTER");
     enterKey.once("down", () => {
